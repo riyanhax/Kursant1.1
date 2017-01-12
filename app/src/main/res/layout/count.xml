@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_image">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reszta PLN z Euro"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal"
+        android:textSize="30dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText8"
+        android:layout_gravity="center_horizontal"
+        android:textSize="45dp"
+        android:textAlignment="center"
+        android:background="@drawable/euro"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reszta PLN z Dolara"
+        android:id="@+id/textView7"
+        android:layout_gravity="center_horizontal"
+        android:textSize="30dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText9"
+        android:layout_gravity="center_horizontal"
+        android:textSize="45dp"
+        android:textAlignment="center"
+        android:background="@drawable/dolar"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reszta PLN z PLN"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal"
+        android:textSize="30dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText10"
+        android:layout_gravity="center_horizontal"
+        android:textSize="45dp"
+        android:textAlignment="center"
+        android:background="@drawable/pln"
+        />
+    <!--
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powrót"
+        android:id="@+id/button3"
+        android:layout_gravity="center_horizontal" />
+      -->
+</LinearLayout>
