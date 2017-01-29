@@ -51,44 +51,28 @@ public class MainActivity extends AppCompatActivity {
         // To to euro
 
         final EditText myTextBox1 = (EditText) findViewById(R.id.editText6);
-
-
         myTextBox1.addTextChangedListener(new TextWatcher() {
-
             public void afterTextChanged(Editable s) {
             }
-
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
             }
-
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
             try {
                 TextView myOutputBox = (TextView) findViewById(R.id.editText4);
                 Double cyfra = Double.valueOf(s.toString());
-
                 EditText kurs = (EditText) findViewById(R.id.editText);
                 Editable kursS = kurs.getText();
                 Double kursDouble = Double.valueOf(kursS.toString());
-
                 Double wynik = cyfra / kursDouble;
-
                 String cyfras = String.valueOf(Round.round(wynik,2));
                   myOutputBox.setText(cyfras+" €");
             }catch(ArithmeticException | NumberFormatException f)
             {
-
                 TextView myOutputBox = (TextView) findViewById(R.id.editText4);
                 myOutputBox.setText(null);
-
-
             }
-
-
-
-
-
             }
         });
 
@@ -97,48 +81,32 @@ public class MainActivity extends AppCompatActivity {
         // To to dolar
 
         final EditText myTextBox2 = (EditText) findViewById(R.id.editText6);
-
-
         myTextBox2.addTextChangedListener(new TextWatcher() {
-
             public void afterTextChanged(Editable s) {
             }
-
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
             }
-
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 try {
                     TextView myOutputBox = (TextView) findViewById(R.id.editText5);
                     Double cyfra = Double.valueOf(s.toString());
-
                     EditText kurs = (EditText) findViewById(R.id.editText3);
                     Editable kursS = kurs.getText();
                     Double kursDouble = Double.valueOf(kursS.toString());
-
                     Double wynik = cyfra / kursDouble;
-
                     String cyfras = String.valueOf(Round.round(wynik,2));
                     myOutputBox.setText(cyfras+" $");
                 }catch(ArithmeticException | NumberFormatException f)
                 {
-
                     TextView myOutputBox = (TextView) findViewById(R.id.editText5);
                     myOutputBox.setText(null);
                 }
-
-
             }
         });
 
         // do tąd
-
-
-
-
-
 
         EditText mEdit = (EditText) findViewById(R.id.editText);
         mEdit.setKeyListener(null);
@@ -172,9 +140,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
@@ -219,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             is.close();
         }
     }
-
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
