@@ -1,6 +1,5 @@
 package com.example.szzc.kursant11;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -23,18 +22,10 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    DoCount doCount = new DoCount();
+    Count count = new Count();
+    final Update update = new Update();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final Update update = new Update();
+    public void doUpdate(){
         try {
             update.update();
             Toast.makeText(MainActivity.this, "Kursy poprawnie pobrane z json.NBP !!",
@@ -48,37 +39,28 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        doUpdate();
 
         Button clickButton = (Button) findViewById(R.id.button);
         clickButton.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                try {
-                    update.update();
-                    Toast.makeText(MainActivity.this, "Kursy poprawnie pobrane z json.NBP !!",
-                            Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
-                            Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
-                            Toast.LENGTH_LONG).show();
-                }
+                doUpdate();
             }
         });
 
-
-
-
-
-
-        // To to euro
-
-        final EditText myTextBox1 = (EditText) findViewById(R.id.editText6);
-        myTextBox1.addTextChangedListener(new TextWatcher() {
+        final EditText inputTotalForEuro = (EditText) findViewById(R.id.editText6);
+        inputTotalForEuro.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
             public void beforeTextChanged(CharSequence s, int start,
@@ -87,14 +69,15 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
             try {
-                TextView myOutputBox = (TextView) findViewById(R.id.editText4);
-                Double cyfra = Double.valueOf(s.toString());
-                EditText kurs = (EditText) findViewById(R.id.editText);
-                Editable kursS = kurs.getText();
-                Double kursDouble = Double.valueOf(kursS.toString());
-                Double wynik = cyfra / kursDouble;
-                String cyfras = String.valueOf(Round.round(wynik,2));
-                  myOutputBox.setText(cyfras+" €");
+                TextView output = (TextView) findViewById(R.id.editText4);
+                EditText rate = (EditText) findViewById(R.id.editText);
+                Float number  = Float.valueOf(s.toString());
+                Editable rateAsText = rate.getText();
+                Float rateAsFloat = Float.valueOf(rateAsText.toString());
+                Float result = number / rateAsFloat;
+                String resultAsString = String.valueOf(Round.round(result,2));
+                output.setText(resultAsString+" €");
+
             }catch(ArithmeticException | NumberFormatException f)
             {
                 TextView myOutputBox = (TextView) findViewById(R.id.editText4);
@@ -102,10 +85,6 @@ public class MainActivity extends AppCompatActivity {
             }
             }
         });
-
-        // do tąd
-
-        // To to dolar
 
         final EditText myTextBox2 = (EditText) findViewById(R.id.editText6);
         myTextBox2.addTextChangedListener(new TextWatcher() {
@@ -117,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 try {
-                    TextView myOutputBox = (TextView) findViewById(R.id.editText5);
-                    Double cyfra = Double.valueOf(s.toString());
+                    TextView output = (TextView) findViewById(R.id.editText5);
                     EditText kurs = (EditText) findViewById(R.id.editText3);
-                    Editable kursS = kurs.getText();
-                    Double kursDouble = Double.valueOf(kursS.toString());
-                    Double wynik = cyfra / kursDouble;
-                    String cyfras = String.valueOf(Round.round(wynik,2));
-                    myOutputBox.setText(cyfras+" $");
+                    Float number = Float.valueOf(s.toString());
+                    Editable rateAsString = kurs.getText();
+                    Float kursAsFloat = Float.valueOf(rateAsString.toString());
+                    Float result = number / kursAsFloat;
+                    String resultAsString = String.valueOf(Round.round(result,2));
+                    output.setText(resultAsString+" $");
                 }catch(ArithmeticException | NumberFormatException f)
                 {
                     TextView myOutputBox = (TextView) findViewById(R.id.editText5);
@@ -132,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // do tąd
 
         EditText mEdit = (EditText) findViewById(R.id.editText);
         mEdit.setKeyListener(null);
@@ -147,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                doCount.doCount();
+                count.doCount();
             }
         });
 
