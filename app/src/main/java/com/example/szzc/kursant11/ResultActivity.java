@@ -1,16 +1,11 @@
 package com.example.szzc.kursant11;
 
-
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
-/**
- * Created by szzc on 18.08.16.
- */
 public class ResultActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +47,7 @@ public class ResultActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();     }
 
     }
+
     }
 
 

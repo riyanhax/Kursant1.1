@@ -1,5 +1,6 @@
 package com.example.szzc.kursant11;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -22,24 +23,9 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    Count count = new Count();
     final Update update = new Update();
-
-    public void doUpdate(){
-        try {
-            update.update();
-            Toast.makeText(MainActivity.this, "Kursy poprawnie pobrane z json.NBP !!",
-                    Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
-                    Toast.LENGTH_LONG).show();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
+    Dolar dolar = new Dolar();
+    Euro euro = new Euro();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         doUpdate();
+        try {
+            dolar.setRate((Double) update.updateItem(dolar.getUrl(),dolar.getSection()));
+            euro.setRate((Double) update.updateItem(euro.getUrl(),euro.getSection()));
+            euro.setDate((String) update.updateItem(euro.getUrl(),euro.getDateSection()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Button clickButton = (Button) findViewById(R.id.button);
         clickButton.setOnClickListener( new View.OnClickListener() {
@@ -70,12 +65,7 @@ public class MainActivity extends AppCompatActivity {
                                       int before, int count) {
             try {
                 TextView output = (TextView) findViewById(R.id.editText4);
-                EditText rate = (EditText) findViewById(R.id.editText);
-                Float number  = Float.valueOf(s.toString());
-                Editable rateAsText = rate.getText();
-                Float rateAsFloat = Float.valueOf(rateAsText.toString());
-                Float result = number / rateAsFloat;
-                String resultAsString = String.valueOf(Round.round(result,2));
+                String resultAsString = String.valueOf(Round.round(Float.valueOf(s.toString()) / Float.valueOf(String.valueOf(euro.getRate())),2));
                 output.setText(resultAsString+" €");
 
             }catch(ArithmeticException | NumberFormatException f)
@@ -97,12 +87,7 @@ public class MainActivity extends AppCompatActivity {
                                       int before, int count) {
                 try {
                     TextView output = (TextView) findViewById(R.id.editText5);
-                    EditText kurs = (EditText) findViewById(R.id.editText3);
-                    Float number = Float.valueOf(s.toString());
-                    Editable rateAsString = kurs.getText();
-                    Float kursAsFloat = Float.valueOf(rateAsString.toString());
-                    Float result = number / kursAsFloat;
-                    String resultAsString = String.valueOf(Round.round(result,2));
+                    String resultAsString = String.valueOf(Round.round(Float.valueOf(s.toString()) / Float.valueOf(String.valueOf(dolar.getRate())),2));
                     output.setText(resultAsString+" $");
                 }catch(ArithmeticException | NumberFormatException f)
                 {
@@ -124,18 +109,38 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                count.doCount();
+                Intent sendStuff = new Intent(MainActivity.this,ResultActivity.class);
+                EditText date = (EditText) findViewById(R.id.editText2);
+                sendStuff.putExtra("data", date.getText().toString());
+                EditText euro = (EditText) findViewById(R.id.editText);
+                sendStuff.putExtra("euro", euro.getText().toString());
+                EditText dolar = (EditText) findViewById(R.id.editText3);
+                sendStuff.putExtra("dolar", dolar.getText().toString());
+                EditText sum = (EditText) findViewById(R.id.editText6);
+                sendStuff.putExtra("sum", sum.getText().toString());
+                EditText bill = (EditText) findViewById(R.id.editText7);
+                sendStuff.putExtra("bill", bill.getText().toString());
+                startActivity(sendStuff);
             }
         });
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    public void doUpdate(){
+        try {
+            TextView dolarTextView = (TextView) findViewById(R.id.editText3);
+            dolarTextView.setText(update.updateItem(dolar.getUrl(),dolar.getSection()).toString());
+            EditText euroTextView = (EditText) findViewById(R.id.editText);
+            euroTextView.setText(update.updateItem(euro.getUrl(),euro.getSection()).toString());
+            EditText dateTextView = (EditText) findViewById(R.id.editText2);
+            dateTextView.setText(update.updateItem(euro.getUrl(),euro.getDateSection()).toString());
+
+            Toast.makeText(MainActivity.this, "Kursy poprawnie pobrane z json.NBP !!",
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Brak połączenia z internetem!!",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -146,10 +151,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                finish();
+                System.exit(0);
+                break;
+            default:
+
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 }

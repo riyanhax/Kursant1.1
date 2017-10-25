@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Kursant 1.1</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Wyjście</string>
+    <string name="rate_date">Data kursu:</string>
+    <string name="pobierz_kursy">Pobierz kursy!!</string>
+    <string name="kurs_euro">Kurs Euro</string>
+    <string name="kurs_dolara">Kurs Dolara</string>
+    <string name="cena_produkt_w">Cena produktów</string>
+    <string name="banknot">Banknot</string>
+    <string name="policz_resz">Policz reszę</string>
 </resources>
